@@ -52,10 +52,14 @@ public class Utils {
      * @param element 元素
      * @Description 高亮显示元素
      */
-    public static void hightlightElement(WebElement element) {
+    public static void hightlightElement(WebDriver driver,WebElement element) {
         js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].setAttribute('style',arguments[1]);", element, "background: yellow; border: 2px solid red;");
-
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
