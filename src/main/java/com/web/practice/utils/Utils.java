@@ -4,13 +4,15 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import io.qameta.allure.Attachment;
 import lombok.Data;
+import org.ietf.jgss.Oid;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.testng.annotations.Test;
 
 @Data
 public class Utils {
     static JavascriptExecutor js;
-    static WebDriver driver;
 
     /**
      * @return 浏览器驱动
@@ -78,6 +80,35 @@ public class Utils {
     @Attachment(value = "截图如下：",type = "image/png")
     public static byte[] creatFile(WebDriver driver) {
         return ((TakesScreenshot)driver).getScreenshotAs(OutputType.BYTES);
+    }
+
+
+    /**
+     * @Description 获取已经打开的浏览器方法
+     */
+    public static WebDriver browserOpened(){
+        /**
+         * mac电脑：
+         * 步骤一：在终端运行下面命令会自动打开一个新的chrome窗口
+         * 终端命令：sudo /Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222
+         */
+        System.setProperty("webdriver.chrome.driver", "./driver/chromedriver");
+        ChromeOptions options = new ChromeOptions();
+        //增加浏览器参数配置本地127.0.0.1 端口：9222
+        options.setExperimentalOption("debuggerAddress", "127.0.0.1:9222");
+        WebDriver driver = new ChromeDriver(options);
+        return driver;
+    }
+
+    @Test(description = "对上述封装方法进行测试")
+    public void demo(){
+        WebDriver driver = browserOpened();
+        //这步骤已经操作了，浏览器也处于这步骤，可以注释
+//        driver.get("https://www.toutiao.com/");
+        //在已打开的浏览器操作方便调试自己的代码
+        WebElement input = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[4]/div/div[1]/input"));
+        hightlightElement(driver,input);
+        input.sendKeys("软件测试");
     }
 
 }

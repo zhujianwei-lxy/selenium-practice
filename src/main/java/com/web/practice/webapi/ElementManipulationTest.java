@@ -75,7 +75,7 @@ public class ElementManipulationTest {
         Utils.hightlightElement(driver,input);
         //清空默认文本
         input.clear();
-        //在百度输入框中输入Refain 博客园
+        //输入测试
         input.sendKeys("测试");
         //等待1秒（为了更清楚的看到效果）
         Thread.sleep(1000);
